@@ -1,3 +1,5 @@
+def gv
+
 pipeline {
     agent any
     environment {
@@ -14,6 +16,13 @@ pipeline {
         booleanParam(name: 'SKIP_TESTS', defaultValue: false, description: 'Skip tests during build')
     }
     stages {
+        stage("Initialization") {
+            steps {
+                script {
+                    gv = load 'script.groovy'
+                }
+            }
+        }
         stage('Build') {
             steps {
                 echo "Build branch $GIT_BRANCH with build number $BUILD_NUMBER"
@@ -31,12 +40,7 @@ pipeline {
                 // Run the shell script from the repo (sh on Linux/macOS, bat on Windows)
                 script {
                     if (isUnix()) {
-                        // sh 'sh freestyle-build.sh'
-                        echo "Directory listing****************************:"
-                        sh 'ls -la'
-                        sh 'whoami'
-                        sh 'mkdir -p build'
-                        sh 'ls -la build'
+                        gv.functionExample()
                     } else {
                         bat 'npm --version'
                     }
