@@ -34,6 +34,9 @@ pipeline {
                         // sh 'sh freestyle-build.sh'
                         echo "Directory listing****************************:"
                         sh 'ls -la'
+                        sh 'whoami'
+                        sh 'mkdir -p build'
+                        sh 'ls -la build'
                     } else {
                         bat 'npm --version'
                     }
