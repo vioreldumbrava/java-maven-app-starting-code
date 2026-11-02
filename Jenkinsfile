@@ -25,17 +25,9 @@ pipeline {
         }
         stage('Build') {
             steps {
-                echo "Build branch $GIT_BRANCH with build number $BUILD_NUMBER"
-                // Built-in Jenkins variables
-                echo "Job: $JOB_NAME, workspace: $WORKSPACE"
-                echo "Build URL: $BUILD_URL"
-                // Variables defined in the environment block
-                echo "Building image tag $IMAGE_TAG"
-                // Same variable accessed via env. and params.
-                echo "Env via env.: ${env.APP_NAME}, parameter via params.: ${params.ENVIRONMENT}"
-                // Setting an env variable at runtime (visible to later stages too)
+                
                 script {
-                    env.BUILD_TIME = new Date().format('yyyy-MM-dd HH:mm')
+                    gv.functionBuild()
                 }
                 // Run the shell script from the repo (sh on Linux/macOS, bat on Windows)
                 script {
