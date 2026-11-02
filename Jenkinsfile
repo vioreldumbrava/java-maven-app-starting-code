@@ -31,7 +31,9 @@ pipeline {
                 // Run the shell script from the repo (sh on Linux/macOS, bat on Windows)
                 script {
                     if (isUnix()) {
-                        sh 'sh freestyle-build.sh'
+                        // sh 'sh freestyle-build.sh'
+                        echo "Directory listing****************************:"
+                        sh 'ls -la'
                     } else {
                         bat 'npm --version'
                     }
