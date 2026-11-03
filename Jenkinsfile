@@ -11,11 +11,23 @@ pipeline {
         stage('Initialize') {
             steps {
                 script {
-                   gvscr = load 'script_new.groovy'
+                    env.PIPELINE_BRANCH = env.BRANCH_NAME ?: env.GIT_BRANCH?.replaceFirst('^origin/', '') ?: 'unknown'
+                    gvscr = load 'script_new.groovy'
                 }
             }
         }
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                echo "Executing tests for branch ${env.PIPELINE_BRANCH}"
+            }
+        }
         stage('Build Jar') {
+            when {
+                expression {
+                    env.PIPELINE_BRANCH == 'master'
+                }
+            }
             steps {
                 script {
                     gvscr.functionBuildJar()
@@ -23,6 +35,11 @@ pipeline {
             }
         }
         stage('Build Docker Image') {
+            when {
+                expression {
+                    env.PIPELINE_BRANCH == 'master'
+                }
+            }
             steps {
                 script {
                     gvscr.functionBuildDocker()
@@ -30,6 +47,11 @@ pipeline {
             }
         }
         stage('Push Docker Image') {
+            when {
+                expression {
+                    env.PIPELINE_BRANCH == 'master'
+                }
+            }
             steps {
                 script {
                     gvscr.functionPushDocker()
@@ -37,9 +59,14 @@ pipeline {
             }
         }
         stage('Deploy to Jenkins Host') {
+            when {
+                expression {
+                    env.PIPELINE_BRANCH == 'master'
+                }
+            }
             steps {
                 script {
-                   gvscr.functionDeploy()
+                    gvscr.functionDeploy()
                 }
             }
         }
