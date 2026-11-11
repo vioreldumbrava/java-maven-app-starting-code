@@ -1,3 +1,6 @@
+#!/usr/bin/env groovy
+@Library('jenkins-shared-lib') _
+
 def gvscr
 pipeline {
     agent any
@@ -30,7 +33,8 @@ pipeline {
             }
             steps {
                 script {
-                    gvscr.functionBuildJar()
+                    // gvscr.functionBuildJar()
+                    buildJar()
                 }
             }
         }
