@@ -1,5 +1,5 @@
 #!/usr/bin/env groovy
-@Library('jenkins-shared-lib') _
+@Library('jenkins-shared-lib@main') _
 
 def gvscr
 pipeline {
@@ -26,11 +26,11 @@ pipeline {
             }
         }
         stage('Build Jar') {
-            when {
-                expression {
-                    env.PIPELINE_BRANCH == 'master'
-                }
-            }
+            // when {
+            //     expression {
+            //         env.PIPELINE_BRANCH == 'master' || env.PIPELINE_BRANCH == 'main' || env.PIPELINE_BRANCH == 'Branch_shared_lib_jenkins'
+            //     }
+            // }
             steps {
                 script {
                     // gvscr.functionBuildJar()
